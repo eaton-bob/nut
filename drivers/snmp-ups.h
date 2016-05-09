@@ -46,6 +46,12 @@
 - rework the flagging system
 */
 
+#ifdef WITH_DMF_LUA
+# include <lua.h>
+# include <lauxlib.h>
+# include <lualib.h>
+#endif
+
 #ifndef SNMP_UPS_H
 #define SNMP_UPS_H
 
@@ -224,6 +230,9 @@ typedef struct {
 	const char	*sysOID;			/* OID to match against sysOID, aka MIB
 									 * main entry point */
 	alarms_info_t	*alarms_info;
+#ifdef WITH_DMF_LUA
+	lua_State **functions;
+#endif
 } mib2nut_info_t;
 
 /* Common SNMP functions */
@@ -265,7 +274,8 @@ extern struct snmp_session g_snmp_sess, *g_snmp_sess_p;
 extern const char *OID_pwr_status;
 extern int g_pwr_battery;
 extern int pollfreq; /* polling frequency */
-extern int input_phases, output_phases, bypass_phases;
+//extern int input_phases, output_phases, bypass_phases;
+int input_phases, output_phases, bypass_phases;
 
 #endif /* SNMP_UPS_H */
 
